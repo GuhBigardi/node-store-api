@@ -1,7 +1,21 @@
 'use strict'
 
+import Product from '../models/product';
+
 export function post(req, res, next) {
-    res.status(201).send(req.body);
+    let product = new Product(req.body);
+
+    product.save()
+    .then(x => {
+        res.status(201).send({
+            message: 'Produto cadastrado com sucesso!'
+        });
+    }).catch(ex => {
+        res.status(400).send({
+            message: 'Falha ao cadastrar o produto',
+            data: ex
+        });
+    });
 }
 
 export function put(req, res, next) {
